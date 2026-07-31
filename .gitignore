@@ -50,4 +50,4 @@ build/
 # Secrets
 .env.local
 *.pem
-credentials.json
+credentials.json.agents/
