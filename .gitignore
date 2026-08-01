@@ -51,3 +51,6 @@ build/
 .env.local
 *.pem
 credentials.json.agents/
+
+.agent/
+
