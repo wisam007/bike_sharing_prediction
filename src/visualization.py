@@ -130,3 +130,136 @@ def plot_correlation_heatmap(df:pd.DataFrame,output_dir:Path)->Path:
     return output_path
 
 
+def plot_actual_vs_predicted(
+        residual_df,
+        output_dir):
+
+    output_dir.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    output_path = (
+        output_dir /
+        "actual_vs_predicted.png"
+    )
+
+
+    plt.figure(figsize=(7,5))
+
+
+    sns.scatterplot(
+        data=residual_df,
+        x="actual",
+        y="predicted"
+    )
+
+
+    plt.plot(
+        [
+            residual_df["actual"].min(),
+            residual_df["actual"].max()
+        ],
+        [
+            residual_df["actual"].min(),
+            residual_df["actual"].max()
+        ]
+    )
+
+
+    plt.title(
+        "Actual vs Predicted Bike Rentals"
+    )
+
+
+    plt.tight_layout()
+
+    plt.savefig(
+        output_path,
+        dpi=300
+    )
+
+    plt.close()
+
+    return output_path
+
+
+def plot_residuals(
+        residual_df,
+        output_dir):
+
+
+    output_path = (
+        output_dir /
+        "residual_plot.png"
+    )
+
+
+    plt.figure(figsize=(7,5))
+
+
+    sns.scatterplot(
+        data=residual_df,
+        x="predicted",
+        y="residual"
+    )
+
+
+    plt.axhline(0)
+
+
+    plt.title(
+        "Residuals vs Predictions"
+    )
+
+
+    plt.tight_layout()
+
+
+    plt.savefig(
+        output_path,
+        dpi=300
+    )
+
+
+    plt.close()
+
+    return output_path
+
+def plot_residual_distribution(
+        residual_df,
+        output_dir):
+
+
+    output_path = (
+        output_dir /
+        "residual_distribution.png"
+    )
+
+
+    plt.figure(figsize=(7,5))
+
+
+    sns.histplot(
+        residual_df["residual"],
+        kde=True
+    )
+
+
+    plt.title(
+        "Residual Distribution"
+    )
+
+
+    plt.tight_layout()
+
+
+    plt.savefig(
+        output_path,
+        dpi=300
+    )
+
+
+    plt.close()
+
+    return output_path

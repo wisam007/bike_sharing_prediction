@@ -13,7 +13,10 @@ from src.visualization import (plot_cnt_distribution,
                                plot_outlier_subplots,
                                plot_categorical_boxplots,
                                plot_correlation_heatmap,
-                               plot_feature_rel_scatterplot
+                               plot_feature_rel_scatterplot,
+                               plot_actual_vs_predicted,
+                               plot_residuals,
+                               plot_residual_distribution
 )
 from src.features import split_data,split_features_target,build_preprocessor,get_feature_count
 from src.preprocessing import preprocess_data
@@ -89,7 +92,7 @@ def main():
         )
         trained_models[name] = pipeline
 
-        metrics = evaluate_model(
+        metrics,actual, predicted = evaluate_model(
             pipeline,
             X_train,
             X_test,
@@ -110,6 +113,37 @@ def main():
 )
     best_model_name = sorted_data[0]["Model"]
     best_pipeline = trained_models[best_model_name]
+
+    residual_df = pd.DataFrame(
+        {
+            "actual": actual,
+            "predicted": predicted,
+            "residual": actual - predicted
+        }
+    )
+
+
+    save_csv(
+        residual_df,
+        TABLE_DIR / "residual_analysis.csv"
+    )
+
+    
+    plot_actual_vs_predicted(
+        residual_df,
+        FIGURE_DIR
+    )
+
+    plot_residuals(
+        residual_df,
+        FIGURE_DIR
+    )
+
+    plot_residual_distribution(
+        residual_df,
+        FIGURE_DIR
+    )
+        
 
     save_json(
         sorted_data,

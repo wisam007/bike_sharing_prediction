@@ -54,5 +54,8 @@
         "casual": "int64",
         "registered": "int64",
         "cnt": "int64"
-    }
+    },
+    "duplicate_rows": 0,
+    "memory_usage_mb": 0.1,
+    "target": "cnt"
 }

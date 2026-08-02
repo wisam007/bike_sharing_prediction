@@ -1,16 +1,33 @@
 from typing import Any
 import pandas as pd
 
-def dataset_summary(df:pd.DataFrame) -> dict[str,Any]:
-    """Return a high-level summary of the dataset."""
+# def dataset_summary(df:pd.DataFrame) -> dict[str,Any]:
+#     """Return a high-level summary of the dataset."""
+
+#     summary = {
+#         "rows": len(df),
+#         "columns":len(df.columns),
+#         "column_names":list(df.columns),
+#         "missing_values": df.isna().sum().to_dict(),
+#         "data_types":df.dtypes.astype(str).to_dict(),
+#     }
+#     return summary
+def dataset_summary(df):
 
     summary = {
         "rows": len(df),
-        "columns":len(df.columns),
-        "column_names":list(df.columns),
+        "columns": len(df.columns),
+        "column_names": list(df.columns),
         "missing_values": df.isna().sum().to_dict(),
-        "data_types":df.dtypes.astype(str).to_dict(),
+        "data_types": df.dtypes.astype(str).to_dict(),
+        "duplicate_rows": int(df.duplicated().sum()),
+        "memory_usage_mb": round(
+            df.memory_usage(deep=True).sum()/1024**2,
+            2
+        ),
+        "target": "cnt"
     }
+
     return summary
 
 def descriptive_statistics(df:pd.DataFrame)->pd.DataFrame:

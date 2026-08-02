@@ -37,4 +37,4 @@ def evaluate_model(
         "R2": r2_score(y_test, y_pred),
     }
 
-    return results
+    return results, y_test, y_pred

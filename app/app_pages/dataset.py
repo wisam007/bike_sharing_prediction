@@ -1,50 +1,198 @@
 import pandas as pd
 import streamlit as st
-from config import RAW_DATA
-from src.loader import load_data
+# from config import RAW_DATA
+# from src.loader import load_data
+
+import json
+from pathlib import Path
+
+import pandas as pd
+import streamlit as st
+
+from config import JSON_DIR, TABLE_DIR, PROCESSED_DATA
+
+
 
 @st.cache_data(ttl="1h", max_entries=5)
-def get_raw_dataset() -> pd.DataFrame:
-    """
-    Load the raw bike sharing dataset and cache it.
-    """
-    return load_data(RAW_DATA)
+@st.cache_data
+def load_json_file(path):
 
-st.header("Dataset information")
+    with open(path, "r") as file:
+        return json.load(file)
+
+
+@st.cache_data
+def load_statistics():
+
+    return pd.read_csv(
+        TABLE_DIR / "descriptive_statistics.csv"
+    )
+
+
+@st.cache_data
+def load_processed_dataset():
+
+    return pd.read_csv(
+        PROCESSED_DATA
+    )
+
+
+st.header("Dataset Information")
+
 
 try:
-    df = get_raw_dataset()
-    
-    cols = st.columns(2)
-    with cols[0].container(border=True):
-        st.metric("Total observations", f"{df.shape[0]:,}", icon=":material/format_list_bulleted:")
-    with cols[1].container(border=True):
-        st.metric("Total features", df.shape[1], icon=":material/view_column:")
 
-    st.space("medium")
-    
-    st.subheader("Feature descriptions")
-    feature_descriptions = {
-        "season": "Seasonal category of the observation (spring, summer, fall, winter).",
-        "yr": "Year indicator (0 = 2011, 1 = 2012).",
-        "mnth": "Calendar month (jan, feb, mar, etc.).",
-        "holiday": "Whether the day is a holiday (0 = No, 1 = Yes).",
-        "weekday": "Day of the week (sun, mon, tue, etc.).",
-        "workingday": "Whether the day is a working day (0 = No, 1 = Yes).",
-        "weathersit": "Weather condition category (clear, mist_cloudy, light_rain_snow, heavy_rain_snow).",
-        "temp": "Temperature in Celsius.",
-        "hum": "Humidity percentage.",
-        "windspeed": "Wind speed (km/h).",
-        "cnt": "Target variable: total daily bike rentals (sum of casual and registered).",
-    }
-    
-    desc_df = pd.DataFrame(feature_descriptions.items(), columns=["Feature name", "Description"])
-    st.dataframe(desc_df)
+    summary = load_json_file(
+        JSON_DIR / "dataset_summary.json"
+    )
 
-    st.space("medium")
-    
-    st.subheader("Sample dataset preview")
-    st.dataframe(df.head(10))
+    quality = load_json_file(
+        JSON_DIR / "data_quality.json"
+    )
 
+
+    # ------------------------
+    # Dataset Overview
+    # ------------------------
+
+    st.subheader("Dataset Overview")
+
+
+    col1, col2, col3 = st.columns(3)
+
+
+    with col1:
+        st.metric(
+            "Rows",
+            f"{summary['rows']:,}"
+        )
+
+
+    with col2:
+        st.metric(
+            "Columns",
+            summary["columns"]
+        )
+
+
+    with col3:
+        st.metric(
+            "Target",
+            summary["target"]
+            if "target" in summary
+            else "cnt"
+        )
+
+
+    st.write(
+        "Problem Type: **Regression**"
+    )
+
+    st.write(
+        "Dataset: **Bike Sharing Demand**"
+    )
+
+
+    st.divider()
+
+
+    # ------------------------
+    # Data Quality
+    # ------------------------
+
+    st.subheader("Data Quality")
+
+
+    q1, q2 = st.columns(2)
+
+
+    with q1:
+
+        st.metric(
+            "Missing Values",
+            quality["missing_values"]
+        )
+
+
+    with q2:
+
+        st.metric(
+            "Duplicate Rows",
+            quality["duplicated_rows"]
+        )
+
+
+    st.divider()
+
+
+    # ------------------------
+    # Data Types
+    # ------------------------
+
+    st.subheader("Feature Data Types")
+
+
+    dtype_df = pd.DataFrame(
+        summary["data_types"].items(),
+        columns=[
+            "Feature",
+            "Data Type"
+        ]
+    )
+
+
+    st.dataframe(
+        dtype_df,
+        use_container_width=True
+    )
+
+
+    st.divider()
+
+
+    # ------------------------
+    # Statistics
+    # ------------------------
+
+    st.subheader(
+        "Descriptive Statistics"
+    )
+
+
+    stats = load_statistics()
+
+
+    st.dataframe(
+        stats,
+        use_container_width=True
+    )
+
+
+    st.divider()
+
+
+    # ------------------------
+    # Processed Dataset Preview
+    # ------------------------
+
+    st.subheader(
+        "Processed Dataset Preview"
+    )
+
+
+    processed = load_processed_dataset()
+
+
+    st.dataframe(
+        processed.head(10),
+        use_container_width=True
+    )
+
+
+except Exception as e:
+
+    st.error(
+        f"Failed to load dataset information: {e}"
+    )
 except Exception as e:
     st.error(f"Failed to load dataset: {e}", icon=":material/error:")

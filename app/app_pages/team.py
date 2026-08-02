@@ -7,19 +7,19 @@ st.space("medium")
 
 team_members = [
     {
-        "name": "Alex Morgan",
+        "name": "Wissam Jemal",
         "role": "Machine Learning Engineer",
         "focus": "Model development, pipelining, and frontend deployment",
         "icon": ":material/engineering:"
     },
     {
-        "name": "Jamie Carter",
+        "name": "Yasmin Anwar",
         "role": "Data Scientist",
         "focus": "Exploratory analysis, data cleaning, and feature engineering",
         "icon": ":material/analytics:"
     },
     {
-        "name": "Taylor Lee",
+        "name": "Betelhem ",
         "role": "Product Analyst",
         "focus": "Business problem framing, evaluation criteria, and reporting",
         "icon": ":material/assignment_ind:"
