@@ -1,31 +1,46 @@
+import os
+import sys
+from pathlib import Path
+
+# Add the project root to sys.path so sub-pages can import config and src modules
+root_path = Path(__file__).resolve().parent.parent
+if str(root_path) not in sys.path:
+    sys.path.insert(0, str(root_path))
+
 import streamlit as st
 
-from src.data_loader import load_dataset
-
-st.set_page_config(page_title="Bike Sharing Prediction", page_icon="🚲", layout="wide")
-
-st.markdown(
-    """
-    <div style="background: linear-gradient(90deg, #0f172a, #2563eb); padding: 2rem; border-radius: 1rem;">
-        <h1 style="color: white; margin: 0;">Bike Sharing Demand Prediction</h1>
-        <p style="color: #dbeafe; margin-top: 0.5rem;">A production-style modular ML project for forecasting daily bike rentals.</p>
-    </div>
-    """,
-    unsafe_allow_html=True,
+st.set_page_config(
+    page_title="Bike Sharing Demand Prediction",
+    page_icon=":material/directions_bike:",
+    layout="wide"
 )
 
-st.write("")
+# Define pages in groups relative to app.py location
+pages = {
+    "Overview": [
+        st.Page("app_pages/home.py", title="Home", icon=":material/home:"),
+        st.Page("app_pages/project.py", title="Project description", icon=":material/info:"),
+        st.Page("app_pages/about.py", title="About project", icon=":material/description:"),
+        st.Page("app_pages/team.py", title="Team members", icon=":material/group:"),
+    ],
+    "Data Exploration": [
+        st.Page("app_pages/dataset.py", title="Dataset information", icon=":material/database:"),
+        st.Page("app_pages/eda.py", title="Exploratory data analysis", icon=":material/analytics:"),
+    ],
+    "Model & Performance": [
+        st.Page("app_pages/model.py", title="Model training info", icon=":material/memory:"),
+        st.Page("app_pages/comparison.py", title="Model comparison", icon=":material/bar_chart:"),
+        st.Page("app_pages/feature_importance.py", title="Feature importance", icon=":material/explore:"),
+        st.Page("app_pages/residual_analysis.py", title="Residual analysis", icon=":material/query_stats:"),
+        st.Page("app_pages/project_report.py", title="Project reports", icon=":material/article:"),
+    ],
+    "Inference": [
+        st.Page("app_pages/prediction.py", title="Prediction portal", icon=":material/online_prediction:"),
+    ]
+}
 
-st.subheader("Project overview")
-st.write(
-    "This application packages the notebook workflow into a modular, production-ready project. "
-    "It loads the bike sharing dataset, trains the same regression pipeline from the notebook, "
-    "and exposes the model through an interactive prediction experience."
-)
+# Run navigation
+page = st.navigation(pages, position="sidebar")
 
-st.info("Use the sidebar navigation to explore the project, dataset, model details, and prediction workflow.")
-
-with st.expander("Dataset snapshot", expanded=True):
-    df = load_dataset()
-    st.dataframe(df.head(), use_container_width=True)
-    st.caption(f"Shape: {df.shape[0]} rows × {df.shape[1]} columns")
+# Run selected page script
+page.run()

@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#14b8a6" # Vibrant Teal accent
+backgroundColor = "#0f172a" # Deep Slate Background
+secondaryBackgroundColor = "#1e293b" # Slightly lighter Slate for cards/sidebar
+textColor = "#f8fafc" # Clean Off-White for high readability
+font = "sans serif"
