@@ -52,5 +52,5 @@ build/
 *.pem
 credentials.json.agents/
 
-.agent/
+.agents/
 
