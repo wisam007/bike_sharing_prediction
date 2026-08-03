@@ -28,11 +28,9 @@ pages = {
         st.Page("app_pages/eda.py", title="Exploratory data analysis", icon=":material/analytics:"),
     ],
     "Model & Performance": [
-        st.Page("app_pages/model.py", title="Model training info", icon=":material/memory:"),
-        st.Page("app_pages/comparison.py", title="Model comparison", icon=":material/bar_chart:"),
         st.Page("app_pages/feature_importance.py", title="Feature importance", icon=":material/explore:"),
+        st.Page("app_pages/model.py", title="Model training info", icon=":material/memory:"),
         st.Page("app_pages/residual_analysis.py", title="Residual analysis", icon=":material/query_stats:"),
-        st.Page("app_pages/project_report.py", title="Project reports", icon=":material/article:"),
     ],
     "Inference": [
         st.Page("app_pages/prediction.py", title="Prediction portal", icon=":material/online_prediction:"),

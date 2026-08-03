@@ -47,6 +47,63 @@ def plot_distribution_with_kde(df:pd.DataFrame,output_dir:Path)->Path:
     plt.close()
     return output_path
 
+
+def plot_categorical_distributions(df: pd.DataFrame,output_dir: Path,) -> Path:
+    """
+    Plot count distributions for categorical variables.
+    """
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    output_path = output_dir / "categorical_distributions.png"
+
+    categorical_features = [
+        "season",
+        "mnth",
+        "weekday",
+        "weathersit",
+        "yr",
+        "workingday",
+        "holiday",
+    ]
+
+    fig, axes = plt.subplots(3, 3, figsize=(18, 14))
+    axes = axes.flatten()
+
+    for i, feature in enumerate(categorical_features):
+
+        order = sorted(df[feature].dropna().unique())
+
+        sns.countplot(
+            data=df,
+            x=feature,
+            order=order,
+            ax=axes[i],
+            color="#4C72B0",
+        )
+
+        axes[i].set_title(f"{feature} Distribution")
+        axes[i].set_xlabel(feature)
+        axes[i].set_ylabel("Count")
+        axes[i].tick_params(axis="x", rotation=45)
+
+        # Show the count above each bar
+        for container in axes[i].containers:
+            axes[i].bar_label(
+                container,
+                fontsize=8,
+            )
+
+    # Remove any unused subplot axes
+    for j in range(len(categorical_features), len(axes)):
+        fig.delaxes(axes[j])
+
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+
+    return output_path
+
 def plot_outlier_subplots(df:pd.DataFrame,output_dir:Path)->Path:
     output_dir.mkdir(parents=True,exist_ok=True)
     output_path = output_dir / "weather_outlier_subplots.png"
@@ -430,3 +487,10 @@ def plot_actual_vs_predicted(
     plt.close()
 
     return filepath
+
+
+
+#======================================================
+
+
+

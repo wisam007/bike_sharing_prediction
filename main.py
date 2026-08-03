@@ -18,7 +18,8 @@ from src.visualization import (plot_cnt_distribution,
                                plot_residuals,
                                plot_residual_distribution,
                                plot_actual_vs_predicted,
-                               plot_model_comparison
+                               plot_model_comparison,
+                               plot_categorical_distributions
 
 )
 from src.features import split_data,split_features_target,build_preprocessor,get_feature_count
@@ -45,6 +46,7 @@ def main():
     heatmap_plot = plot_correlation_heatmap(df,FIGURE_DIR)
     scatter_plots = plot_feature_rel_scatterplot(df,FIGURE_DIR)
     save_json(summary, JSON_DIR / "dataset_summary.json")
+    plot_categorical_distributions(df, FIGURE_DIR)
 
     save_csv(stats, TABLE_DIR / "descriptive_statistics.csv")
 
@@ -181,6 +183,7 @@ def main():
         y_test,
         FIGURE_DIR,
     )
+
 
 
 if __name__ == "__main__":
