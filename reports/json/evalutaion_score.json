@@ -1,7 +1,7 @@
 [
     {
         "Model": "Support Vector Regressor",
-        "Training Time (s)": 0.1042,
+        "Training Time (s)": 0.0792,
         "MAE": 374.0222527590051,
         "MSE": 252150.2305331974,
         "MAPE": 0.10847528859527499,
@@ -10,7 +10,7 @@
     },
     {
         "Model": "Random Forest",
-        "Training Time (s)": 0.4967,
+        "Training Time (s)": 0.4971,
         "MAE": 427.8813698630137,
         "MSE": 325263.2693945205,
         "MAPE": 0.11893838062106121,
@@ -19,7 +19,7 @@
     },
     {
         "Model": "Gradient Boosting",
-        "Training Time (s)": 0.2544,
+        "Training Time (s)": 0.2371,
         "MAE": 438.7460048187864,
         "MSE": 339861.4906839777,
         "MAPE": 0.12022965015166868,
@@ -28,7 +28,7 @@
     },
     {
         "Model": "Extra Trees",
-        "Training Time (s)": 0.4755,
+        "Training Time (s)": 0.4333,
         "MAE": 415.23315068493145,
         "MSE": 347051.9823315068,
         "MAPE": 0.11704164023900557,
@@ -37,7 +37,7 @@
     },
     {
         "Model": "Ridge Regression",
-        "Training Time (s)": 0.033,
+        "Training Time (s)": 0.0304,
         "MAE": 522.390596310807,
         "MSE": 464394.2282368626,
         "MAPE": 0.15310382768886155,
@@ -46,7 +46,7 @@
     },
     {
         "Model": "Lasso Regression",
-        "Training Time (s)": 0.0331,
+        "Training Time (s)": 0.0323,
         "MAE": 523.5165957591623,
         "MSE": 467342.73157241876,
         "MAPE": 0.15385547401556826,
@@ -55,7 +55,7 @@
     },
     {
         "Model": "Linear Regression",
-        "Training Time (s)": 0.031,
+        "Training Time (s)": 0.0321,
         "MAE": 522.976937267331,
         "MSE": 470299.74913825974,
         "MAPE": 0.15436518171658437,
@@ -64,7 +64,7 @@
     },
     {
         "Model": "Decision Tree",
-        "Training Time (s)": 0.0356,
+        "Training Time (s)": 0.0399,
         "MAE": 491.43835616438355,
         "MSE": 491168.5616438356,
         "MAPE": 0.13735721957450614,
@@ -73,7 +73,7 @@
     },
     {
         "Model": "AdaBoost",
-        "Training Time (s)": 0.2022,
+        "Training Time (s)": 0.1864,
         "MAE": 609.4207882074965,
         "MSE": 593265.8253886207,
         "MAPE": 0.160971567417061,

@@ -1,7 +1,7 @@
 import streamlit as st
 import json
 import pandas as pd
-from config import JSON_DIR
+from config import JSON_DIR, FIGURE_DIR
 
 st.header("Model training information")
 
@@ -45,6 +45,42 @@ else:
     st.dataframe(display_df)
 
     st.space("medium")
+    #===========================================================================
+
+    st.subheader(
+    "Select a chart below to visualize Models Comparision plots."
+)
+plot_options = {
+    "Model Comparison": (
+        "model_comparison.png",
+        "Comparison of regression models using Test R² and RMSE.",
+    ),
+    "Actual vs Predicted": (
+        "models_actual_vs_predicted.png",
+        "Actual versus predicted bike rentals for the top four models.",
+    ),
+}
+
+selection = st.segmented_control(
+    "Select visualization to display",
+    options=list(plot_options.keys()),
+    default="Model Comparison",
+)
+
+if selection:
+    filename, caption = plot_options[selection]
+    path = FIGURE_DIR / filename
+    
+    if path.exists():
+        with st.container(border=True):
+            st.image(str(path))
+            st.caption(f"{caption} (Saved figure: reports/figures/{filename})")
+    else:
+        st.warning(f"Plot figure not found: {filename}", icon=":material/warning:")
+
+
+
+    #===========================================================================
     
     st.subheader("Best model selection")
     with st.container(border=True):
