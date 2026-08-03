@@ -51,7 +51,8 @@ def split_data(
         X,
         y,
         test_size=0.2,
-        random_state=42,):
+        random_state=42,
+        ):
     return train_test_split(X,y,test_size=test_size,random_state=random_state)
 def get_feature_count(preprocessor, X_train) -> int:
     X_transformed = preprocessor.fit_transform(X_train)

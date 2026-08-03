@@ -130,7 +130,7 @@ def plot_correlation_heatmap(df:pd.DataFrame,output_dir:Path)->Path:
     return output_path
 
 
-def plot_actual_vs_predicted(
+def plot_actual_vs_predicted_residual(
         residual_df,
         output_dir):
 
@@ -263,3 +263,170 @@ def plot_residual_distribution(
     plt.close()
 
     return output_path
+
+
+#================================================
+def plot_model_comparison(results_df: pd.DataFrame, output_dir: Path):
+    """
+    Compare regression models using Test R² and RMSE.
+    """
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    plt.style.use("seaborn-v0_8-whitegrid")
+
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+
+    df_sorted_r2 = results_df.sort_values(by="R2", ascending=True)
+    df_sorted_rmse = results_df.sort_values(by="RMSE", ascending=False)
+
+    colors_r2 = [
+        "#3498db" if "Extra" not in m and "Ada" not in m else "#e74c3c"
+        for m in df_sorted_r2["Model"]
+    ]
+
+    axes[0].barh(
+        df_sorted_r2["Model"],
+        df_sorted_r2["R2"],
+        color=colors_r2,
+        edgecolor="black",
+        alpha=0.85,
+    )
+
+    axes[0].set_title(
+        "Model Comparison: Test $R^2$ Score",
+        fontsize=13,
+        fontweight="bold",
+    )
+
+    axes[0].set_xlabel("Test $R^2$")
+
+    for index, value in enumerate(df_sorted_r2["R2"]):
+        axes[0].text(
+            value + 0.003,
+            index,
+            f"{value:.4f}",
+            va="center",
+            fontsize=9,
+            fontweight="bold",
+        )
+
+    colors_rmse = [
+        "#2ecc71" if "Extra" not in m and "Ada" not in m else "#e67e22"
+        for m in df_sorted_rmse["Model"]
+    ]
+
+    axes[1].barh(
+        df_sorted_rmse["Model"],
+        df_sorted_rmse["RMSE"],
+        color=colors_rmse,
+        edgecolor="black",
+        alpha=0.85,
+    )
+
+    axes[1].set_title(
+        "Model Comparison: RMSE",
+        fontsize=13,
+        fontweight="bold",
+    )
+
+    axes[1].set_xlabel("RMSE")
+
+    for index, value in enumerate(df_sorted_rmse["RMSE"]):
+        axes[1].text(
+            value + 10,
+            index,
+            f"{value:.1f}",
+            va="center",
+            fontsize=9,
+            fontweight="bold",
+        )
+
+    plt.tight_layout()
+
+    filepath = output_dir / "model_comparison.png"
+
+    plt.savefig(filepath, dpi=300)
+
+    plt.close()
+
+    return filepath
+
+#===================================================
+def plot_actual_vs_predicted(
+    trained_models: dict,
+    results_df: pd.DataFrame,
+    X_test,
+    y_test,
+    output_dir: Path,
+):
+    """
+    Actual vs Predicted scatter plots
+    for the four best models.
+    """
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    plt.style.use("seaborn-v0_8-whitegrid")
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+
+    axes = axes.flatten()
+
+    top_models = (
+        results_df.sort_values("R2", ascending=False)
+        .head(4)["Model"]
+        .tolist()
+    )
+
+    for i, model_name in enumerate(top_models):
+
+        pipeline = trained_models[model_name]
+
+        y_pred = pipeline.predict(X_test)
+
+        r2 = results_df.loc[
+            results_df["Model"] == model_name,
+            "R2",
+        ].values[0]
+
+        rmse = results_df.loc[
+            results_df["Model"] == model_name,
+            "RMSE",
+        ].values[0]
+
+        axes[i].scatter(
+            y_test,
+            y_pred,
+            alpha=0.7,
+            edgecolors="black",
+            s=40,
+        )
+
+        axes[i].plot(
+            [y_test.min(), y_test.max()],
+            [y_test.min(), y_test.max()],
+            "r--",
+            linewidth=2,
+        )
+
+        axes[i].set_title(
+            f"{model_name}\n"
+            f"R²={r2:.4f}, RMSE={rmse:.1f}",
+            fontsize=11,
+            fontweight="bold",
+        )
+
+        axes[i].set_xlabel("Actual Bike Rentals")
+
+        axes[i].set_ylabel("Predicted Bike Rentals")
+
+    plt.tight_layout()
+
+    filepath = output_dir / "models_actual_vs_predicted.png"
+
+    plt.savefig(filepath, dpi=300)
+
+    plt.close()
+
+    return filepath

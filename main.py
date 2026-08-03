@@ -14,9 +14,12 @@ from src.visualization import (plot_cnt_distribution,
                                plot_categorical_boxplots,
                                plot_correlation_heatmap,
                                plot_feature_rel_scatterplot,
-                               plot_actual_vs_predicted,
+                               plot_actual_vs_predicted_residual,
                                plot_residuals,
-                               plot_residual_distribution
+                               plot_residual_distribution,
+                               plot_actual_vs_predicted,
+                               plot_model_comparison
+
 )
 from src.features import split_data,split_features_target,build_preprocessor,get_feature_count
 from src.preprocessing import preprocess_data
@@ -114,6 +117,8 @@ def main():
     best_model_name = sorted_data[0]["Model"]
     best_pipeline = trained_models[best_model_name]
 
+    results_df = pd.DataFrame(results)
+
     residual_df = pd.DataFrame(
         {
             "actual": actual,
@@ -129,7 +134,7 @@ def main():
     )
 
     
-    plot_actual_vs_predicted(
+    plot_actual_vs_predicted_residual(
         residual_df,
         FIGURE_DIR
     )
@@ -164,7 +169,18 @@ def main():
         best_model_info,
         JSON_DIR / "best_model.json"
     )
+    plot_model_comparison(
+        results_df,
+        FIGURE_DIR,
+    )
 
+    plot_actual_vs_predicted(
+        trained_models,
+        results_df,
+        X_test,
+        y_test,
+        FIGURE_DIR,
+    )
 
 
 if __name__ == "__main__":
