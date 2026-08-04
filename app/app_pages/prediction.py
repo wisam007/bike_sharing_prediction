@@ -32,8 +32,8 @@ if model_loaded:
         with col1:
             st.markdown("#### :material/calendar_today: Temporal & calendar features")
             
-            year_label = st.segmented_control("Year", ["2011", "2012"], default="2011")
-            yr = 0 if year_label == "2011" else 1
+            year_label = st.segmented_control("Year", ["2018", "2019"], default="2018")
+            yr = 0 if year_label == "2018" else 1
             
             season_label = st.selectbox(
                 "Season",

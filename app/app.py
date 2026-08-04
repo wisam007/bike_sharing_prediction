@@ -21,7 +21,6 @@ pages = {
         st.Page("app_pages/home.py", title="Home", icon=":material/home:"),
         st.Page("app_pages/project.py", title="Project description", icon=":material/info:"),
         st.Page("app_pages/about.py", title="About project", icon=":material/description:"),
-        st.Page("app_pages/team.py", title="Team members", icon=":material/group:"),
     ],
     "Data Exploration": [
         st.Page("app_pages/dataset.py", title="Dataset information", icon=":material/database:"),

@@ -23,12 +23,50 @@ with st.container(border=True):
 │   ├── json/             # Evaluation metrics
 │   └── tables/           # Statistics CSVs
 ├── src/                  # Core modular package
-│   ├── features.py       # Pipelines & data transformers
-│   ├── modeling.py       # Model training algorithms
-│   ├── persistence.py    # Joblib load/save utils
-│   ├── preprocessing.py  # Data cleaning & data quality checks
-│   └── loader.py         # Dataset read utils
-└── main.py               # Main pipeline script
+│       ├── loader.py │
+|       ├── preprocessing.py 
+│       ├── features.py 
+│       ├── modeling.py
+│       ├── evaluation.py
+│       ├── visualization.py 
+│       ├── reporting.py
+│       ├── persistence.py
+│       ├── inference.py 
+|       └── eda.py
+├── config.py 
+├── main.py               # Main pipeline script
+├── predict.py 
+├── requirements.txt 
+└── README.md
         """,
         language="text"
     )
+import streamlit as st
+
+st.header("Team members")
+st.write("Meet the team responsible for modularizing and delivering this project.")
+
+st.space("medium")
+
+team_members = [
+    {
+        "name": "Wissam Jemal",
+        "icon": ":material/engineering:"
+    },
+    {
+        "name": "Yasmin Anwar",
+        "icon": ":material/analytics:"
+    },
+    {
+        "name": "Betelhem Mulat",
+        "icon": ":material/assignment_ind:"
+    },
+]
+
+cols = st.columns(3)
+
+for idx, member in enumerate(team_members):
+    with cols[idx].container(border=True, height="stretch"):
+        st.markdown(f"### {member['icon']} {member['name']}")
+        
+
