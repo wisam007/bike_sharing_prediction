@@ -91,8 +91,8 @@ if model_loaded:
             
             temp = st.slider(
                 "Temperature (°C)",
-                min_value=-10.0,
-                max_value=45.0,
+                min_value=2.5,
+                max_value=35.0,
                 value=20.0,
                 step=0.1
             )
