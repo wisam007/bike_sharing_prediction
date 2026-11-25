@@ -1,10 +1,12 @@
 from pathlib import Path
 
-
+# Assign The base directory
 BASE_DIR = Path(__file__).parent
 
+# Assign The data directory
 DATA_DIR = BASE_DIR / "data"
 
+#Raw Data Location
 RAW_DATA = DATA_DIR / "day.csv"
 
 REPORT_DIR = BASE_DIR / "reports"
